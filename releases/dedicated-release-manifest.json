@@ -9,7 +9,7 @@
       "hostAgent": {
         "fileName": "torygo-host-agent",
         "url": "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-host-agent",
-        "sha256": "ac916c540e98fa1a4d61fc066836fc4a9d69c3833907c8d8a85ee14df0b9d98d"
+        "sha256": "5bbf4173cb13381ec3a3c02bc7f429170bf2cccfdccb4bbecc0b40f38cc63c15"
       },
       "dedicatedRuntime": {
         "fileName": "torygo-dedicated-server",
