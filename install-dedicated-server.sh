@@ -29,8 +29,8 @@ RUNTIME_SHA256="${TORYGO_DEDICATED_RUNTIME_SHA256:-}"
 HOST_AGENT_SHA256_URL="${TORYGO_HOST_AGENT_SHA256_URL:-}"
 RUNTIME_SHA256_URL="${TORYGO_DEDICATED_RUNTIME_SHA256_URL:-}"
 ACTIVATION_KEY="${TORYGO_ACTIVATION_KEY:-}"
-CENTRAL_CONTROL_URL="${TORYGO_CENTRAL_CONTROL_URL:-https://gateway.invalid/torygo/control}"
-GATEWAY_TUNNEL_URL="${TORYGO_GATEWAY_TUNNEL_URL:-wss://gateway.invalid/torygo/tunnel}"
+CENTRAL_CONTROL_URL="${TORYGO_CENTRAL_CONTROL_URL:-https://torygo.com}"
+GATEWAY_TUNNEL_URL="${TORYGO_GATEWAY_TUNNEL_URL:-}"
 AGENT_DRY_RUN="${TORYGO_AGENT_DRY_RUN:-0}"
 RUNTIME_BIND_ADDR="${TORYGO_RUNTIME_BIND_ADDR:-127.0.0.1:7777}"
 RUNTIME_HEALTH_URL="${TORYGO_RUNTIME_HEALTH_URL:-http://127.0.0.1:7777/health}"
@@ -53,13 +53,6 @@ usage() {
   cat <<'USAGE'
 Usage:
   curl -fsSL https://artifact.example/install-dedicated-server.sh | sudo bash -s -- \
-    --central-control-url https://gateway.example/control \
-    --gateway-tunnel-url wss://gateway.example/tunnel \
-    --gateway-reconnect-min-secs 10 \
-    --gateway-reconnect-max-secs 120 \
-    --config-dir /etc/torygo \
-    --data-dir /var/lib/torygo \
-    --systemd-unit-dir /etc/systemd/system \
     --activation-key one-time-key
 
 Environment variables:
@@ -70,7 +63,9 @@ Environment variables:
   TORYGO_HOST_AGENT_SHA256, TORYGO_DEDICATED_RUNTIME_SHA256
   TORYGO_HOST_AGENT_SHA256_URL, TORYGO_DEDICATED_RUNTIME_SHA256_URL
   TORYGO_ACTIVATION_KEY
-  TORYGO_CENTRAL_CONTROL_URL, TORYGO_GATEWAY_TUNNEL_URL
+  TORYGO_CENTRAL_CONTROL_URL for operator-only central control override
+  TORYGO_GATEWAY_TUNNEL_URL for operator-only fallback if activation response
+  does not provide gatewayTunnelUrl
   TORYGO_GATEWAY_CONNECT_TIMEOUT_SECS, TORYGO_GATEWAY_SEND_TIMEOUT_SECS
   TORYGO_GATEWAY_RECONNECT_MIN_SECS, TORYGO_GATEWAY_RECONNECT_MAX_SECS
   TORYGO_RUNTIME_HEALTH_CHECK_TIMEOUT_MS
@@ -508,8 +503,10 @@ if [[ -n "$RUNTIME_SHA256_URL" ]]; then
 fi
 assert_control_endpoint "Central control endpoint" "$CENTRAL_CONTROL_URL"
 
-if [[ "$AGENT_DRY_RUN" != "1" ]] && is_placeholder_value "$GATEWAY_TUNNEL_URL"; then
-  log "WARNING: Gateway tunnel endpoint is a placeholder; activation response must provide gatewayTunnelUrl."
+if [[ "$AGENT_DRY_RUN" != "1" && -z "${GATEWAY_TUNNEL_URL// }" ]]; then
+  log "Gateway tunnel endpoint will be provided by the activation response."
+elif [[ "$AGENT_DRY_RUN" != "1" ]] && is_placeholder_value "$GATEWAY_TUNNEL_URL"; then
+  fail "Gateway tunnel endpoint override is still a placeholder. Leave it unset so activation can provide gatewayTunnelUrl."
 fi
 
 IDENTITY_FILE="$STATE_DIR/identity.json"
