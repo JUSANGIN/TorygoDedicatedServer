@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "tool": "dedicated-hosted-release-manifest",
+  "status": "ok",
+  "channel": "stable",
+  "version": "2026.05.22-arm64-1",
+  "artifacts": {
+    "linux-arm64": {
+      "hostAgent": {
+        "fileName": "torygo-host-agent",
+        "url": "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-host-agent",
+        "sha256": "ac916c540e98fa1a4d61fc066836fc4a9d69c3833907c8d8a85ee14df0b9d98d"
+      },
+      "dedicatedRuntime": {
+        "fileName": "torygo-dedicated-server",
+        "url": "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-dedicated-server",
+        "sha256": "969436b74476723ba38cc1b9c22f87c863909741d09546c72a7de83484c646d9"
+      }
+    }
+  },
+  "installer": {
+    "entrypoint": "../install-dedicated-server.sh",
+    "supportsReleaseManifestUrl": true,
+    "resolvesArtifactUrlsFromManifest": true,
+    "verifiesManifestSha256Pins": true
+  },
+  "safeMaterial": {
+    "activationKeyStoredInManifest": false,
+    "nodeSecretStoredInManifest": false,
+    "accountTokenStoredInManifest": false,
+    "joinSessionStoredInManifest": false,
+    "rawMaterialExposed": false
+  }
+}
