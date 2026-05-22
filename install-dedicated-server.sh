@@ -73,6 +73,11 @@ Environment variables:
   TORYGO_ALLOW_NON_ROOT_DRY_RUN=1 only for local --dry-run harnesses with
   non-system install/config/data/systemd directories
 
+The product one-command install requires only --activation-key. Artifact URLs,
+SHA256 pins, systemd setup, runtime health checks, and the gateway tunnel URL
+are resolved automatically from the embedded release manifest and the Host Agent
+activation response.
+
 If the official hosted installer has a default release manifest URL embedded,
 or --release-manifest-url is provided, the installer downloads the manifest,
 selects the current Linux architecture, verifies the requested channel/version,
@@ -512,8 +517,17 @@ fi
 IDENTITY_FILE="$STATE_DIR/identity.json"
 RELEASE_PROVENANCE_FILE="$STATE_DIR/install-release-provenance.json"
 
+identity_has_node_id() {
+  [[ -s "$IDENTITY_FILE" ]] || return 1
+  grep -Eq '"nodeId"[[:space:]]*:[[:space:]]*"[^"]+"' "$IDENTITY_FILE"
+}
+
 if [[ "$AGENT_DRY_RUN" != "1" && -z "${ACTIVATION_KEY// }" && -s "$IDENTITY_FILE" ]]; then
-  log "Existing Host Agent identity found; activation key is not required for this run."
+  if identity_has_node_id; then
+    log "Existing Host Agent identity found; activation key is not required for this run."
+  else
+    fail "Existing Host Agent identity is incomplete. Generate a fresh activation key and re-run the installer."
+  fi
 fi
 
 if [[ "$AGENT_DRY_RUN" != "1" && -z "${ACTIVATION_KEY// }" && ! -s "$IDENTITY_FILE" ]]; then
@@ -786,6 +800,17 @@ wait_for_local_health() {
   fail "Dedicated Runtime local health check failed: $RUNTIME_HEALTH_URL"
 }
 
+start_or_restart_service() {
+  log "Enabling and restarting $SERVICE_NAME"
+  systemctl enable "$SERVICE_NAME"
+
+  if ! systemctl restart "$SERVICE_NAME"; then
+    systemctl status "$SERVICE_NAME" --no-pager || true
+    journalctl -u "$SERVICE_NAME" -n 80 --no-pager || true
+    fail "$SERVICE_NAME failed to restart with the current install environment."
+  fi
+}
+
 clear_activation_key_after_activation() {
   if [[ "$AGENT_DRY_RUN" == "1" && ! -s "$IDENTITY_FILE" ]]; then
     return
@@ -796,7 +821,12 @@ clear_activation_key_after_activation() {
   fi
 
   if [[ ! -s "$IDENTITY_FILE" ]]; then
-    log "WARNING: Host Agent identity was not found at $IDENTITY_FILE; leaving activation key in $ENV_FILE for service retry."
+    log "WARNING: Host Agent identity was not found; leaving activation key in the service environment for retry."
+    return
+  fi
+
+  if ! identity_has_node_id; then
+    log "WARNING: Host Agent identity is incomplete; leaving activation key in the service environment for retry."
     return
   fi
 
@@ -894,8 +924,7 @@ chown "$SERVICE_USER:$SERVICE_GROUP" "$HOST_AGENT_BIN" "$RUNTIME_BIN"
 write_env_file
 install_systemd_unit
 
-log "Enabling and starting $SERVICE_NAME"
-systemctl enable --now "$SERVICE_NAME"
+start_or_restart_service
 wait_for_service
 wait_for_local_health
 clear_activation_key_after_activation
