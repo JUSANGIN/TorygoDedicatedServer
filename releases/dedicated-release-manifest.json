@@ -3,17 +3,17 @@
   "tool": "dedicated-hosted-release-manifest",
   "status": "ok",
   "channel": "stable",
-  "version": "2026.05.22-arm64-2",
+  "version": "2026.05.22-arm64-3",
   "artifacts": {
     "linux-arm64": {
       "hostAgent": {
         "fileName": "torygo-host-agent",
-        "url": "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-host-agent?v=2026.05.22-arm64-2",
-        "sha256": "50f0de0eee739d2f79749c7a522b5a87e4dbd08be82fdb433cc635dbc775b4de"
+        "url": "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-host-agent?v=2026.05.22-arm64-3",
+        "sha256": "4a0b4b0fb2cd649e396dff2642e0d37fe44922dfea111fd17175758c683c7db1"
       },
       "dedicatedRuntime": {
         "fileName": "torygo-dedicated-server",
-        "url": "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-dedicated-server?v=2026.05.22-arm64-2",
+        "url": "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-dedicated-server?v=2026.05.22-arm64-3",
         "sha256": "969436b74476723ba38cc1b9c22f87c863909741d09546c72a7de83484c646d9"
       }
     }
