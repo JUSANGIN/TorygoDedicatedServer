@@ -3,19 +3,19 @@
     "tool":  "dedicated-hosted-release-manifest",
     "status":  "ok",
     "channel":  "stable",
-    "version":  "2026.05.23-arm64-1",
-    "generatedAtUtc":  "2026-05-22T16:16:53.7494737Z",
+    "version":  "2026.05.23-arm64-2",
+    "generatedAtUtc":  "2026-05-23T07:23:21.0521145Z",
     "artifacts":  {
                       "linux-arm64":  {
                                           "hostAgent":  {
                                                             "fileName":  "torygo-host-agent",
-                                                            "url":  "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-host-agent?v=2026.05.23-arm64-1",
+                                                            "url":  "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-host-agent?v=2026.05.23-arm64-2",
                                                             "sha256":  "4a0b4b0fb2cd649e396dff2642e0d37fe44922dfea111fd17175758c683c7db1",
                                                             "byteLength":  7022632
                                                         },
                                           "dedicatedRuntime":  {
                                                                    "fileName":  "torygo-dedicated-server",
-                                                                   "url":  "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-dedicated-server?v=2026.05.23-arm64-1",
+                                                                   "url":  "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-dedicated-server?v=2026.05.23-arm64-2",
                                                                    "sha256":  "9ca55d71f5e816efd868a63e044d8ff5903ac0956dc7d07ad1892796fd22e0a9",
                                                                    "byteLength":  3428464
                                                                }
