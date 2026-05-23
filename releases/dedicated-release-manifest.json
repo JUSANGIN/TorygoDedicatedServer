@@ -3,21 +3,21 @@
     "tool":  "dedicated-hosted-release-manifest",
     "status":  "ok",
     "channel":  "stable",
-    "version":  "2026.05.23-arm64-4",
-    "generatedAtUtc":  "2026-05-23T09:51:03.3486084Z",
+    "version":  "2026.05.23-arm64-5",
+    "generatedAtUtc":  "2026-05-23T13:13:23.8447157Z",
     "artifacts":  {
                       "linux-arm64":  {
                                           "hostAgent":  {
                                                             "fileName":  "torygo-host-agent",
-                                                            "url":  "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-host-agent?v=2026.05.23-arm64-4",
+                                                            "url":  "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-host-agent?v=2026.05.23-arm64-5",
                                                             "sha256":  "4a0b4b0fb2cd649e396dff2642e0d37fe44922dfea111fd17175758c683c7db1",
                                                             "byteLength":  7022632
                                                         },
                                           "dedicatedRuntime":  {
                                                                    "fileName":  "torygo-dedicated-server",
-                                                                   "url":  "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-dedicated-server?v=2026.05.23-arm64-4",
-                                                                   "sha256":  "a5daf55a99b4afe47b1ea38cf3d7211b7d40342eb44ed5f69589fec805222a61",
-                                                                   "byteLength":  3427048
+                                                                   "url":  "https://raw.githubusercontent.com/JUSANGIN/TorygoDedicatedServer/main/linux-arm64/torygo-dedicated-server?v=2026.05.23-arm64-5",
+                                                                   "sha256":  "bd891c3ffb67d03484a125c89cc69f1175df9d537d2a97348bc8c82c94183789",
+                                                                   "byteLength":  3424488
                                                                }
                                       }
                   },
